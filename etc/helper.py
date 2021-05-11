@@ -14,9 +14,16 @@ class MethodsHelpers:
         except TimeoutException:
             raise TimeoutError("Не дождались заголовка страницы")
 
-    def is_element_present(self, how, what, timeout):
+    def is_element_present(self, how, what, timeout=1):
         try:
             wait = WebDriverWait(driver=self.browser, timeout=timeout)
             wait.until(EC.visibility_of_element_located((how, what)))
         except TimeoutException:
             raise TimeoutError(f"Элемент не был найден в течение {timeout} секунд(-ы)")
+
+    def is_text_present(self, how, what, text, timeout=1):
+        try:
+            wait = WebDriverWait(driver=self.browser, timeout=timeout)
+            wait.until(EC.text_to_be_present_in_element((how, what), text))
+        except TimeoutException:
+            raise TimeoutError(f"Текст не был найден в течение {timeout} секунд(-ы)")
